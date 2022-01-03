@@ -1,0 +1,11 @@
+name: WorldEditSelectionManager
+version: ${project.version}
+main: com.github.catericka.wsm.WorldEditSelectionManager
+api-version: 1.16
+depend: [WorldEdit]
+authors: [CatEricka]
+description: Auto selects any structures as a WorldEdit cuboid selection, fork of WorldEdit Structure Selector, just keep auto select.
+website: https://github.com/CatEricka/WorldEditSelectionManager
+
+permissions:
+  wsm.admin: {default: op}
