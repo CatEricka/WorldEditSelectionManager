@@ -20,11 +20,11 @@ import static com.github.catericka.wsm.WorldEditSelectionManager.*;
 public class WsmApi {
     public static class WsmPlayer {
         public boolean enable = false;
-        public int maxX = 32;
-        public int maxY = 32;
-        public int maxZ = 32;
+        public int maxX;
+        public int maxY;
+        public int maxZ;
         final public Set<BlockType> excludeBlocks = Collections.synchronizedSet(new HashSet<>());
-        final public List<BukkitTask> taskQueue = Collections.synchronizedList(new ArrayList<BukkitTask>());
+        final public List<BukkitTask> taskQueue = Collections.synchronizedList(new ArrayList<>());
 
         public WsmPlayer() {
             maxX = configManager.config.maxX;
@@ -60,7 +60,7 @@ public class WsmApi {
     }
 
 
-    private static Map<UUID, WsmPlayer> players = new HashMap<>();      // List of players
+    private final static Map<UUID, WsmPlayer> players = new HashMap<>();      // List of players
     private final static long delay = 10;                   // Delay(in ticks) before executing asynchronous tasks
 
 
@@ -147,8 +147,6 @@ public class WsmApi {
     }
 
     public static void clearAllTaskQueue() {
-        players.forEach(((uuid, wsmPlayer) -> {
-            wsmPlayer.cancelTask();
-        }));
+        players.forEach(((uuid, wsmPlayer) -> wsmPlayer.cancelTask()));
     }
 }

@@ -16,20 +16,15 @@ package com.github.catericka.wsm.listeners;
  *    limitations under the License.
  */
 
-import com.github.catericka.wsm.WorldEditSelectionManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-
-import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 
 public class UpdaterListener implements Listener
 {
 	@EventHandler()
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-		if (!configManager.isLoadSuccess()) return;
-
+//		if (!configManager.isLoadSuccess()) return;
 	}
 }

@@ -2,18 +2,16 @@ package com.github.catericka.wsm.commands.subcommands;
 
 import com.github.catericka.wsm.WsmApi;
 import com.github.catericka.wsm.configuration.Permissions;
+import com.google.common.collect.Lists;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.world.block.BlockType;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import com.google.common.collect.Lists;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;

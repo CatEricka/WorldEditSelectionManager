@@ -21,7 +21,7 @@ public class ConfigManager {
     private YamlConfiguration messageYaml;
     private YamlConfiguration configYaml;
 
-    private boolean loadSuccess = false;
+    private boolean loadSuccess;
 
     public Config config = null;
     public Messages messages = null;

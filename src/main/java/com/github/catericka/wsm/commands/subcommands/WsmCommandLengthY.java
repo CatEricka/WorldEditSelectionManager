@@ -1,10 +1,9 @@
 package com.github.catericka.wsm.commands.subcommands;
 
 import com.github.catericka.wsm.WsmApi;
-import com.github.catericka.wsm.WorldEditSelectionManager;
 import com.github.catericka.wsm.configuration.Permissions;
-import org.bukkit.command.Command;
 import com.google.common.collect.Lists;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

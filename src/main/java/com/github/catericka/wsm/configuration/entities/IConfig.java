@@ -5,6 +5,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings({"unchecked"})
 public interface IConfig extends ConfigurationSerializable {
     default <V> V getOrDefault(Map<String, Object> map, String path, V defaultValue) {
         String[] paths = path.split("\\.");

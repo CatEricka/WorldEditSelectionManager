@@ -22,7 +22,6 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.extension.platform.permission.ActorSelectorLimits;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -61,18 +60,16 @@ public class WorldEditHooker {
             session.dispatchCUISelection(worldEditPlayer);
         }
         else {
-            BlockVector3 vLower = BlockVector3.at(box.getLower().getX(), box.getLower().getY(), box.getLower().getZ());
-            BlockVector3 vUpper = BlockVector3.at(box.getUpper().getX(), box.getUpper().getY(), box.getUpper().getZ());
 
             CuboidRegionSelector selector = new CuboidRegionSelector(worldEditPlayer.getWorld());
-            selector.selectPrimary(vLower, ActorSelectorLimits.forActor(worldEditPlayer));
-            selector.selectSecondary(vUpper, ActorSelectorLimits.forActor(worldEditPlayer));
+            selector.selectPrimary(box.getLowerBlockVector3(), ActorSelectorLimits.forActor(worldEditPlayer));
+            selector.selectSecondary(box.getUpperBlockVector3(), ActorSelectorLimits.forActor(worldEditPlayer));
 
             session.setRegionSelector(worldEditPlayer.getWorld(), selector);
 
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
-            session.getRegionSelector(worldEditPlayer.getWorld()).explainPrimarySelection(worldEditPlayer, session, vLower.toVector3().toBlockPoint());
-            session.getRegionSelector(worldEditPlayer.getWorld()).explainSecondarySelection(worldEditPlayer, session, vUpper.toVector3().toBlockPoint());
+            session.getRegionSelector(worldEditPlayer.getWorld()).explainPrimarySelection(worldEditPlayer, session, box.getLowerBlockVector3());
+            session.getRegionSelector(worldEditPlayer.getWorld()).explainSecondarySelection(worldEditPlayer, session, box.getUpperBlockVector3());
         }
     }
 }

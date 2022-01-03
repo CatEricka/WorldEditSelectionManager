@@ -20,7 +20,6 @@ package com.github.catericka.wsm.commands.subcommands;
 import com.github.catericka.wsm.WsmApi;
 import com.github.catericka.wsm.configuration.Permissions;
 import com.google.common.collect.Lists;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,9 +29,6 @@ import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 
 public class WsmCommandEnable extends Command
 {
-	/**
-	 * @param plugin The plugin that this object belong to.
-	 */
 	public WsmCommandEnable()
 	{
 		super("enable");
