@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.catericka</groupId>
-    <artifactId>wsm</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <artifactId>WorldEditSelectionManager</artifactId>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>WorldEditSelectionManager</name>
@@ -15,7 +15,7 @@
         keep auto select.
     </description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>https://github.com/CatEricka/WorldEditSelectionManager</url>
