@@ -23,10 +23,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.extension.platform.permission.ActorSelectorLimits;
 import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 
 public class WorldEditHooker {
     final private WorldEdit worldEdit;
@@ -67,7 +64,6 @@ public class WorldEditHooker {
 
             session.setRegionSelector(worldEditPlayer.getWorld(), selector);
 
-            player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
             session.getRegionSelector(worldEditPlayer.getWorld()).explainPrimarySelection(worldEditPlayer, session, box.getLowerBlockVector3());
             session.getRegionSelector(worldEditPlayer.getWorld()).explainSecondarySelection(worldEditPlayer, session, box.getUpperBlockVector3());
         }

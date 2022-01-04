@@ -1,8 +1,8 @@
 package com.github.catericka.wsm;
 
 import com.github.catericka.wsm.commands.WsmCommand;
-import com.github.catericka.wsm.configuration.entities.Config;
 import com.github.catericka.wsm.configuration.ConfigManager;
+import com.github.catericka.wsm.configuration.entities.Config;
 import com.github.catericka.wsm.configuration.entities.Messages;
 import com.github.catericka.wsm.integrations.WorldEditHooker;
 import com.github.catericka.wsm.listeners.PlayerListener;
@@ -51,7 +51,7 @@ public final class WorldEditSelectionManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UpdaterListener(), this);
 
         /* Enable message */
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "WorldEdit Structure Selector is enabled.");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "WorldEdit Structure Manager 1.0.3 is enabled.");
         getServer().getConsoleSender().sendMessage("WorldEdit version: " + ChatColor.YELLOW + worldEditHooker.getWorldEditVersion());
     }
 

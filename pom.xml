@@ -6,7 +6,7 @@
 
     <groupId>com.github.catericka</groupId>
     <artifactId>wsm</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>WorldEditSelectionManager</name>

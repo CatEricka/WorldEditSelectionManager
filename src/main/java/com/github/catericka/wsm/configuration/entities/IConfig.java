@@ -9,13 +9,24 @@ import java.util.Map;
 public interface IConfig extends ConfigurationSerializable {
     default <V> V getOrDefault(Map<String, Object> map, String path, V defaultValue) {
         String[] paths = path.split("\\.");
-        Object nextMap = map;
-        for (String p : paths) {
-            nextMap = map.get(p);
-            if (nextMap == null)
-                return defaultValue;
+        if (paths.length == 0) {
+            return defaultValue;
         }
-        return (V) nextMap;
+        else if (paths.length == 1) {
+            if (map.get(path) == null) return defaultValue;
+            else return (V) map.get(path);
+        } else {
+            for (int i = 0; i < paths.length - 1; i++) {
+                if (map.get(paths[i]) == null) {
+                    return defaultValue;
+                } else if (map.get(paths[i]) instanceof Map) {
+                    map = (Map<String, Object>) map.get(paths[i]);
+                } else {
+                    return defaultValue;
+                }
+            }
+            return (V) map.get(paths[paths.length - 1]);
+        }
     }
 
     default <V> void setValue(Map<String, Object> map, String path, V value) {

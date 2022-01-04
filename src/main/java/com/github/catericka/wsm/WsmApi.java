@@ -1,14 +1,13 @@
 package com.github.catericka.wsm;
 
-import com.github.catericka.wsm.utils.Box;
-import com.github.catericka.wsm.utils.StructureBox;
+import com.github.catericka.wsm.utils.SearchTask;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.world.block.BlockType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -24,7 +23,7 @@ public class WsmApi {
         public int maxY;
         public int maxZ;
         final public Set<BlockType> excludeBlocks = Collections.synchronizedSet(new HashSet<>());
-        final public List<BukkitTask> taskQueue = Collections.synchronizedList(new ArrayList<>());
+        final public List<Operation> taskQueue = Collections.synchronizedList(new ArrayList<>());
 
         public WsmPlayer() {
             maxX = configManager.config.maxX;
@@ -54,7 +53,8 @@ public class WsmApi {
         }
 
         public void cancelTask() {
-            taskQueue.forEach(BukkitTask::cancel);
+            // TODO right way to cancel search task
+            taskQueue.forEach(Operation::cancel);
             taskQueue.clear();
         }
     }
@@ -133,20 +133,30 @@ public class WsmApi {
         }
 
         player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Selecting structure ...");
-        wsmPlayer.taskQueue.add(
-                instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
-                    // Get the minimum and maximum selection points
-                    Box box = new StructureBox(location, excluded, lengthX, lengthY, lengthZ).getBox();
-                    // Create the WorldEdit selection
-                    instance.getServer().getScheduler().runTask(instance, () -> {
-                        worldEditHooker.select(player, box);
-                        WsmPlayer p = getPlayer(player);
-                        p.taskQueue.clear();
-                    });
-                }, delay));
+
+        SearchTask searchTask = new SearchTask(location, excluded, lengthX, lengthY, lengthZ);
+        wsmPlayer.taskQueue.add(searchTask.getOperation());
+
+        instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
+
+            // async task
+            searchTask.runSearch();
+
+            // Create the WorldEdit selection
+            instance.getServer().getScheduler().runTask(instance, () -> {
+                if (searchTask.isTaskComplete()) {
+                    player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
+                } else {
+                    player.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Operation canceled.");
+                }
+                worldEditHooker.select(player, searchTask.getBox());
+                getPlayer(player).taskQueue.clear();
+            });
+        }, delay);
     }
 
     public static void clearAllTaskQueue() {
+        // TODO right way to cancel search task
         players.forEach(((uuid, wsmPlayer) -> wsmPlayer.cancelTask()));
     }
 }
