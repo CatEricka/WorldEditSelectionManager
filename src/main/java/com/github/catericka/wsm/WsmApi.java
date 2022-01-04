@@ -133,25 +133,31 @@ public class WsmApi {
         }
 
         player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Selecting structure ...");
-
         SearchTask searchTask = new SearchTask(location, excluded, lengthX, lengthY, lengthZ);
         wsmPlayer.taskQueue.add(searchTask.getOperation());
+        UUID playerUniqueId = player.getUniqueId();
 
+        // closure <- instanceof: searchTask, playerUniqueId,
+        // closure <- static of : instance, config
         instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
-
             // async task
             searchTask.runSearch();
 
-            // Create the WorldEdit selection
+            // Create the WorldEdit selection sync
             instance.getServer().getScheduler().runTask(instance, () -> {
+                Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
+                // If player offline
+                if (maybePlayer == null || !maybePlayer.isOnline()) return;
+
                 if (searchTask.isTaskComplete()) {
-                    player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
+                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
                 } else {
-                    player.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Operation canceled.");
+                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Operation canceled.");
                 }
-                worldEditHooker.select(player, searchTask.getBox());
-                getPlayer(player).taskQueue.clear();
+                worldEditHooker.select(maybePlayer, searchTask.getBox());
+                getPlayer(maybePlayer).taskQueue.clear();
             });
+
         }, delay);
     }
 
