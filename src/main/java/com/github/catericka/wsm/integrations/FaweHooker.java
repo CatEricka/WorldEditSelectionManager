@@ -16,31 +16,41 @@ package com.github.catericka.wsm.integrations;
  *    limitations under the License.
  */
 
+import com.fastasyncworldedit.core.Fawe;
+import com.fastasyncworldedit.core.FaweAPI;
+import com.fastasyncworldedit.core.internal.exception.FaweException;
 import com.github.catericka.wsm.utils.Box;
+import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.extension.platform.permission.ActorSelectorLimits;
 import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
+import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import org.bukkit.entity.Player;
 
-public class WorldEditHooker {
-    final private WorldEdit worldEdit;
-    final private String worldEditVersion;
+import static com.github.catericka.wsm.WorldEditSelectionManager.instance;
 
-    public WorldEditHooker() {
-        // Hard Depend
-        this.worldEdit = WorldEdit.getInstance();
-        worldEditVersion = WorldEdit.getVersion();
+public class FaweHooker {
+    public WorldEdit getWorldEditInstance() {
+        return WorldEdit.getInstance();
     }
 
-    public WorldEdit getInstance() {
-        return worldEdit;
+    public Fawe getFaweInstance() {
+        return Fawe.get();
+    }
+    
+    public void cancelEditSession(EditSession editSession, String reason) {
+        try {
+            FaweAPI.cancelEdit(editSession, TextComponent.of(reason));
+        } catch (FaweException e) {
+            instance.getLogger().info("manually cancel EditSession task by FaweAPI::cancelEdit");
+        }
     }
 
     public String getWorldEditVersion() {
-        return worldEditVersion;
+        return WorldEdit.getVersion();
     }
 
     public void select(Player player, Box box) {
@@ -48,7 +58,7 @@ public class WorldEditHooker {
         if(!player.isOnline()) throw new IllegalArgumentException("Offline player not allowed");
 
         final BukkitPlayer worldEditPlayer = BukkitAdapter.adapt(player);
-        final LocalSession session = worldEdit.getSessionManager().get(worldEditPlayer);
+        final LocalSession session = getWorldEditInstance().getSessionManager().get(worldEditPlayer);
         session.setCUISupport(true);
         session.dispatchCUISetup(worldEditPlayer);
 

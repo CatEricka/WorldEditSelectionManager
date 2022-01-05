@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 
-public class WsmCommandLengthY extends Command {
-    public WsmCommandLengthY() {
-        super("maxY");
-        this.setAliases(Lists.newArrayList("y"));
+public class WsmCommandMaxXZ extends Command {
+    public WsmCommandMaxXZ() {
+        super("maxXZ");
+        this.setAliases(Lists.newArrayList("xz"));
         this.setPermission(Permissions.ADMIN.toString());
         this.setPermissionMessage(configManager.messages.AccesDenied);
     }
@@ -27,22 +27,22 @@ public class WsmCommandLengthY extends Command {
         // Get the player
         final Player player = (Player) sender;
 
-        // Get maxY from command line
+        // Get maxX from command line
         if (args.length == 0) {
-            player.sendMessage(configManager.messages.eMaxY);
+            player.sendMessage(configManager.messages.eMaxXZ);
         } else {
-            int maxY;
+            int maxXZ;
             try {
-                maxY = Integer.parseInt(args[0]);
+                maxXZ = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                maxY = configManager.config.maxY;
+                maxXZ = 32;
             }
 
-            // Define the maxY for the player
-            WsmApi.getPlayer(player).maxY = maxY;
+            // Define the maxXZ for the player
+            WsmApi.getPlayer(player).maxXZ = maxXZ;
 
             // Message
-            player.sendMessage(configManager.messages.maxY + " : " + maxY);
+            player.sendMessage(configManager.messages.maxXZ + " : " + maxXZ);
         }
 
         // command always handled

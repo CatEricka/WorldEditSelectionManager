@@ -25,7 +25,12 @@ public interface IConfig extends ConfigurationSerializable {
                     return defaultValue;
                 }
             }
-            return (V) map.get(paths[paths.length - 1]);
+            Object ret = map.get(paths[paths.length - 1]);
+            if (ret == null) {
+                return defaultValue;
+            } else {
+                return (V) ret;
+            }
         }
     }
 

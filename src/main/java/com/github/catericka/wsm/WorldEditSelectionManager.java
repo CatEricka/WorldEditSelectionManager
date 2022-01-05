@@ -4,7 +4,7 @@ import com.github.catericka.wsm.commands.WsmCommand;
 import com.github.catericka.wsm.configuration.ConfigManager;
 import com.github.catericka.wsm.configuration.entities.Config;
 import com.github.catericka.wsm.configuration.entities.Messages;
-import com.github.catericka.wsm.integrations.WorldEditHooker;
+import com.github.catericka.wsm.integrations.FaweHooker;
 import com.github.catericka.wsm.listeners.PlayerListener;
 import com.github.catericka.wsm.listeners.UpdaterListener;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ public final class WorldEditSelectionManager extends JavaPlugin {
     public static ConfigManager configManager = null;
 
     /* Plugins */
-    public static WorldEditHooker worldEditHooker = null;
+    public static FaweHooker faweHooker = null;
 
 
     /**
@@ -41,7 +41,7 @@ public final class WorldEditSelectionManager extends JavaPlugin {
         }
 
         /* Plugins */
-        worldEditHooker = new WorldEditHooker();
+        faweHooker = new FaweHooker();
 
         /* register commands */
         getServer().getCommandMap().register("WorldEditSelectionManager", new WsmCommand("wsm"));
@@ -52,7 +52,7 @@ public final class WorldEditSelectionManager extends JavaPlugin {
 
         /* Enable message */
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "WorldEdit Structure Manager 1.0.3 is enabled.");
-        getServer().getConsoleSender().sendMessage("WorldEdit version: " + ChatColor.YELLOW + worldEditHooker.getWorldEditVersion());
+        getServer().getConsoleSender().sendMessage("WorldEdit version: " + ChatColor.YELLOW + faweHooker.getWorldEditVersion());
     }
 
     /**

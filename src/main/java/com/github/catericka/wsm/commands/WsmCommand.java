@@ -19,7 +19,7 @@ public class WsmCommand extends Command {
 
     public WsmCommand(String name) {
         super(name);
-        setUsage("/wss disable|enable|exclude|help|maxX|maxY|maxZ|reload");
+        setUsage("/wss disable|enable|exclude|help|maxXZ|maxY|reload");
         setDescription("auto select WorldEdit cube selection");
         setPermission(Permissions.ADMIN.toString());
 
@@ -27,11 +27,13 @@ public class WsmCommand extends Command {
 
             addSubCommand(new WsmCommandDisable());
             addSubCommand(new WsmCommandEnable());
-            addSubCommand(new WsmCommandExclude());
+            addSubCommand(new WssCommandCancel());
+            addSubCommand(new WsmCommandExcludeAdd());
+            addSubCommand(new WsmCommandExcludeClear());
+            addSubCommand(new WsmCommandExcludeList());
             addSubCommand(new WsmCommandHelp());
-            addSubCommand(new WsmCommandLengthX());
-            addSubCommand(new WsmCommandLengthY());
-            addSubCommand(new WsmCommandLengthZ());
+            addSubCommand(new WsmCommandMaxXZ());
+            addSubCommand(new WsmCommandMaxY());
             addSubCommand(new WsmCommandReload());
         } else {
             addSubCommand(new WsmCommandReload());
@@ -94,9 +96,8 @@ public class WsmCommand extends Command {
 
 	public boolean onPlayerExecute(@NotNull Player player, @NotNull String commandLabel, @NotNull String[] args) {
         player.sendMessage(configManager.messages.chatPrefix + " " + ChatColor.AQUA + (WsmApi.isEnable(player) ? "on" : "off"));
-        player.sendMessage(configManager.messages.maxX + " : " + ChatColor.AQUA + WsmApi.getMaxX(player));
+        player.sendMessage(configManager.messages.maxXZ + " : " + ChatColor.AQUA + WsmApi.getMaxXZ(player));
         player.sendMessage(configManager.messages.maxY + " : " + ChatColor.AQUA + WsmApi.getMaxY(player));
-        player.sendMessage(configManager.messages.maxZ + " : " + ChatColor.AQUA + WsmApi.getMaxZ(player));
         return true;
     }
 
