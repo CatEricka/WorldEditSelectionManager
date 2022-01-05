@@ -30,6 +30,7 @@ import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
 import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import org.bukkit.entity.Player;
 
+import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 import static com.github.catericka.wsm.WorldEditSelectionManager.instance;
 
 public class FaweHooker {
@@ -40,12 +41,14 @@ public class FaweHooker {
     public Fawe getFaweInstance() {
         return Fawe.instance();
     }
-    
+
     public void cancelEditSession(EditSession editSession, String reason) {
         try {
             FaweAPI.cancelEdit(editSession, TextComponent.of(reason));
         } catch (FaweException e) {
-            instance.getLogger().info("manually cancel EditSession task by FaweAPI::cancelEdit");
+            if (configManager.config.debug) {
+                instance.getLogger().info("manually cancel EditSession task by FaweAPI::cancelEdit");
+            }
         }
     }
 
@@ -54,19 +57,18 @@ public class FaweHooker {
     }
 
     public void select(Player player, Box box) {
-        if(player == null) throw new IllegalArgumentException("Null player not allowed");
-        if(!player.isOnline()) throw new IllegalArgumentException("Offline player not allowed");
+        if (player == null) throw new IllegalArgumentException("Null player not allowed");
+        if (!player.isOnline()) throw new IllegalArgumentException("Offline player not allowed");
 
         final BukkitPlayer worldEditPlayer = BukkitAdapter.adapt(player);
         final LocalSession session = getWorldEditInstance().getSessionManager().get(worldEditPlayer);
         session.setCUISupport(true);
         session.dispatchCUISetup(worldEditPlayer);
 
-        if(box == null) {
+        if (box == null) {
             session.getRegionSelector(worldEditPlayer.getWorld()).clear();
             session.dispatchCUISelection(worldEditPlayer);
-        }
-        else {
+        } else {
 
             CuboidRegionSelector selector = new CuboidRegionSelector(worldEditPlayer.getWorld());
             selector.selectPrimary(box.getLowerBlockVector3(), ActorSelectorLimits.forActor(worldEditPlayer));
