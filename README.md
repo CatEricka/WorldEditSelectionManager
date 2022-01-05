@@ -2,7 +2,8 @@
 
 ## Description
 
-A bukkit plugin, auto selects any structures as a WorldEdit cuboid selection, fork of WorldEdit Structure Selector, just keep auto select.
+A bukkit plugin, auto selects any structures as a WorldEdit cuboid selection,
+fork of WorldEdit Structure Selector, remove dependent libraries other than WorldEdit
 
 WorldEdit Structure Selector: https://github.com/HexoCraft/WorldEditStructureSelector
 
@@ -59,7 +60,7 @@ WorldEdit Structure Selector: https://github.com/HexoCraft/WorldEditStructureSel
 bukkit 插件，启用后，使用木斧头点击方块，会沿方块相连开始递归搜索（最大递归深度为 maxXZ*2-1，最大垂直搜索范围为 maxY，
 见配置和命令），并自动根据相连区域大小创建 WorldEdit 选区。
 
-该插件为 WorldEdit Structure Selector（https://github.com/HexoCraft/WorldEditStructureSelector/）的 fork。
+该插件为 WorldEdit Structure Selector（ https://github.com/HexoCraft/WorldEditStructureSelector/ ）的 fork。
 本着不要重复造轮子的思想，复用了该插件的代码。由于原插件使用的 API 似乎无法在 1.16.5 工作，因此使用 FAWE API重写插件，
 去掉了所有外部依赖（除 FAWE）。使用 FAWE 加速后选区速度提高了一个数量级，常规大小的选区操作可以在一秒内结束。
 
