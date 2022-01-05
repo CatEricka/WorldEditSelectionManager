@@ -42,7 +42,7 @@ public class WsmCommandDisable extends Command {
             return true;
         }
         final Player player = (Player) sender;
-        // Disable Wss for the player
+        // Disable Wss for the player and cancel search task
         WsmApi.disable(player);
 
         // Message

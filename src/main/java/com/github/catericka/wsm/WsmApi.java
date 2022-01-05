@@ -1,8 +1,8 @@
 package com.github.catericka.wsm;
 
+import com.github.catericka.wsm.utils.Box;
 import com.github.catericka.wsm.utils.SearchTask;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.world.block.BlockType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,6 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.*;
 
@@ -19,31 +22,27 @@ import static com.github.catericka.wsm.WorldEditSelectionManager.*;
 public class WsmApi {
     public static class WsmPlayer {
         public boolean enable = false;
-        public int maxX;
+        public int maxXZ;
         public int maxY;
-        public int maxZ;
-        final public Set<BlockType> excludeBlocks = Collections.synchronizedSet(new HashSet<>());
-        final public List<Operation> taskQueue = Collections.synchronizedList(new ArrayList<>());
+        final private Set<BlockType> excludeBlocks = Collections.synchronizedSet(new HashSet<>());
+        private Future<Box> taskRunning;
 
         public WsmPlayer() {
-            maxX = configManager.config.maxX;
+            maxXZ = configManager.config.maxXZ;
             maxY = configManager.config.maxY;
-            maxZ = configManager.config.maxZ;
             setDefaultExcludeBlocks();
         }
 
         public WsmPlayer(boolean enable) {
             this.enable = enable;
-            maxX = configManager.config.maxX;
+            maxXZ = configManager.config.maxXZ;
             maxY = configManager.config.maxY;
-            maxZ = configManager.config.maxZ;
             setDefaultExcludeBlocks();
         }
 
-        public WsmPlayer(int maxX, int maxY, int maxZ) {
-            this.maxX = maxX;
+        public WsmPlayer(int maxXZ, int maxY) {
+            this.maxXZ = maxXZ;
             this.maxY = maxY;
-            this.maxZ = maxZ;
             setDefaultExcludeBlocks();
         }
 
@@ -52,10 +51,45 @@ public class WsmApi {
             excludeBlocks.add(BukkitAdapter.asBlockType(Material.AIR));
         }
 
+        protected void addTask(Future<Box> task) {
+            if (!allTaskDone()) {
+                throw new IllegalArgumentException("Other task running");
+            }
+            taskRunning = task;
+        }
+
+        protected void taskDone() {
+            taskRunning = null;
+        }
+
+        public boolean allTaskDone() {
+            return taskRunning == null;
+        }
+
         public void cancelTask() {
-            // TODO right way to cancel search task
-            taskQueue.forEach(Operation::cancel);
-            taskQueue.clear();
+            if (taskRunning != null) {
+                taskRunning.cancel(true);
+            }
+            taskRunning = null;
+        }
+
+        public void addExcludeBlock(BlockType blockType) {
+            excludeBlocks.add(blockType);
+        }
+
+        public void addExcludeBlocks(Set<BlockType> blockTypeSet) {
+            excludeBlocks.addAll(blockTypeSet);
+        }
+
+        public void clearExcludeBlocks() {
+            setDefaultExcludeBlocks();
+        }
+
+        /**
+         * @return do not modify manually return set
+         */
+        public Set<BlockType> getExcludeBlockSet() {
+            return excludeBlocks;
         }
     }
 
@@ -105,16 +139,12 @@ public class WsmApi {
         return getPlayer(player).enable;
     }
 
-    public static int getMaxX(Player player) {
-        return getPlayer(player).maxX;
+    public static int getMaxXZ(Player player) {
+        return getPlayer(player).maxXZ;
     }
 
     public static int getMaxY(Player player) {
         return getPlayer(player).maxY;
-    }
-
-    public static int getMaxZ(Player player) {
-        return getPlayer(player).maxZ;
     }
 
 
@@ -122,47 +152,49 @@ public class WsmApi {
         final WsmPlayer wsmPlayer = getPlayer(player);
 
         if (wsmPlayer != null)
-            select(player, location, wsmPlayer.excludeBlocks, wsmPlayer.maxX, wsmPlayer.maxY, wsmPlayer.maxZ);
+            select(player, location, wsmPlayer.excludeBlocks, wsmPlayer.maxXZ, wsmPlayer.maxY);
     }
 
-    public static void select(final Player player, final Location location, final Set<BlockType> excluded, final int lengthX, final int lengthY, final int lengthZ) {
+    public static void select(final Player player, final Location location, final Set<BlockType> excluded, final int lengthXZ, final int lengthY) {
         WsmPlayer wsmPlayer = getPlayer(player);
-        if (wsmPlayer.taskQueue.size() != 0) {
+        if (!wsmPlayer.allTaskDone()) {
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Task Running...");
             return;
         }
 
         player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Selecting structure ...");
-        SearchTask searchTask = new SearchTask(location, excluded, lengthX, lengthY, lengthZ);
-        wsmPlayer.taskQueue.add(searchTask.getOperation());
+        SearchTask searchTask = new SearchTask(location, excluded, lengthXZ, lengthY);
+        Future<Box> future = searchTask.runSearchTaskAsync();
+
+        wsmPlayer.addTask(future);
         UUID playerUniqueId = player.getUniqueId();
-
-        // closure <- instanceof: searchTask, playerUniqueId,
-        // closure <- static of : instance, config
         instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
-            // async task
-            searchTask.runSearch();
+            try {
+                Box box = future.get();
 
-            // Create the WorldEdit selection sync
-            instance.getServer().getScheduler().runTask(instance, () -> {
-                Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
-                // If player offline
-                if (maybePlayer == null || !maybePlayer.isOnline()) return;
+                // Create the WorldEdit selection sync
+                instance.getServer().getScheduler().runTask(instance, () -> {
+                    Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
+                    // If player offline
+                    if (maybePlayer == null || !maybePlayer.isOnline()) return;
 
-                if (searchTask.isTaskComplete()) {
                     maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
-                } else {
-                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Operation canceled.");
-                }
-                worldEditHooker.select(maybePlayer, searchTask.getBox());
-                getPlayer(maybePlayer).taskQueue.clear();
-            });
-
+                    faweHooker.select(maybePlayer, box);
+                    getPlayer(maybePlayer).taskDone();
+                });
+            } catch (InterruptedException | ExecutionException | CancellationException e) {
+                // task cancel
+                instance.getServer().getScheduler().runTask(instance, () -> {
+                    Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
+                    // If player offline
+                    if (maybePlayer == null || !maybePlayer.isOnline()) return;
+                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Search task canceled.");
+                });
+            }
         }, delay);
     }
 
     public static void clearAllTaskQueue() {
-        // TODO right way to cancel search task
         players.forEach(((uuid, wsmPlayer) -> wsmPlayer.cancelTask()));
     }
 }

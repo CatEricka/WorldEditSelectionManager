@@ -16,6 +16,7 @@ package com.github.catericka.wsm.integrations;
  *    limitations under the License.
  */
 
+import com.fastasyncworldedit.core.Fawe;
 import com.github.catericka.wsm.utils.Box;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -25,22 +26,17 @@ import com.sk89q.worldedit.extension.platform.permission.ActorSelectorLimits;
 import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
 import org.bukkit.entity.Player;
 
-public class WorldEditHooker {
-    final private WorldEdit worldEdit;
-    final private String worldEditVersion;
-
-    public WorldEditHooker() {
-        // Hard Depend
-        this.worldEdit = WorldEdit.getInstance();
-        worldEditVersion = WorldEdit.getVersion();
+public class FaweHooker {
+    public WorldEdit getWorldEditInstance() {
+        return WorldEdit.getInstance();
     }
 
-    public WorldEdit getInstance() {
-        return worldEdit;
+    public Fawe getFaweInstance() {
+        return Fawe.get();
     }
 
     public String getWorldEditVersion() {
-        return worldEditVersion;
+        return WorldEdit.getVersion();
     }
 
     public void select(Player player, Box box) {
@@ -48,7 +44,7 @@ public class WorldEditHooker {
         if(!player.isOnline()) throw new IllegalArgumentException("Offline player not allowed");
 
         final BukkitPlayer worldEditPlayer = BukkitAdapter.adapt(player);
-        final LocalSession session = worldEdit.getSessionManager().get(worldEditPlayer);
+        final LocalSession session = getWorldEditInstance().getSessionManager().get(worldEditPlayer);
         session.setCUISupport(true);
         session.dispatchCUISetup(worldEditPlayer);
 

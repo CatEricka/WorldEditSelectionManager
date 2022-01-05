@@ -19,7 +19,10 @@ package com.github.catericka.wsm.configuration.entities;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Messages implements IConfig {
 
@@ -29,26 +32,23 @@ public class Messages implements IConfig {
     public List<String> cReload = Collections.singletonList("Reload Wsm");
     public String cEnable = "Enable Wsm!";
     public String cDisable = "Disable Wsm!";
-    public String cMaxX = "Define maximum maxX selection";
+    public String cMaxXZ = "Define maximum maxX-Z selection";
     public String cMaxY = "Define maximum maxY selection";
-    public String cMaxZ = "Define maximum maxZ selection";
     public String cExclude = "List of material to exclude";
 
     public String sReload = "Wsm has been reloaded";
 
     public String AccesDenied = "You don't have permission to do that!";
     public String ePlayer = "This command can only be executed by a player";
-    public String eMaxX = "X length must be positive!";
+    public String eMaxXZ = "X-Z length must be positive!";
     public String eMaxY = "Y length must be positive!";
-    public String eMaxZ = "Z length must be positive!";
 
     public String enable = "is enable!";
     public String disable = "is disable!";
     public String eLoad = "Plugin Load FAILED, please fix config file then run /wsm reload";
     public String leftClick = "left click an item with a wooden axe to select a structure!";
-    public String maxX = "Maximum length on X axis";
+    public String maxXZ = "Maximum length on X-Z axis";
     public String maxY = "Maximum length on Y axis";
-    public String maxZ = "Maximum length on Z axis";
     public String exclude = "Excluded materials";
 
     public Messages() {
@@ -61,26 +61,23 @@ public class Messages implements IConfig {
         cReload = getOrDefault(map, "commands.reload.cmd", cReload);
         cEnable = getOrDefault(map, "commands.enable.cmd", cEnable);
         cDisable = getOrDefault(map, "commands.disable.cmd", cDisable);
-        cMaxX = getOrDefault(map, "commands.maxx.cmd", cMaxX);
+        cMaxXZ = getOrDefault(map, "commands.maxxz.cmd", cMaxXZ);
         cMaxY = getOrDefault(map, "commands.maxy.cmd", cMaxY);
-        cMaxZ = getOrDefault(map, "commands.maxz.cmd", cMaxZ);
         cExclude = getOrDefault(map, "commands.exclude.cmd", cExclude);
 
         sReload = getOrDefault(map, "success.reload", sReload);
 
         AccesDenied = getOrDefault(map, "errors.AccesDenied", AccesDenied);
         ePlayer = getOrDefault(map, "errors.player", ePlayer);
-        eMaxX = getOrDefault(map, "errors.maxX", eMaxX);
+        eMaxXZ = getOrDefault(map, "errors.maxXZ", eMaxXZ);
         eMaxY = getOrDefault(map, "errors.maxY", eMaxY);
-        eMaxZ = getOrDefault(map, "errors.maxZ", eMaxZ);
 
         enable = getOrDefault(map, "messages.enable", enable);
         disable = getOrDefault(map, "messages.disable", disable);
         eLoad = getOrDefault(map, "messages.reload_failed", eLoad);
         leftClick = getOrDefault(map, "messages.leftClick", leftClick);
-        maxX = getOrDefault(map, "messages.maxX", maxX);
+        maxXZ = getOrDefault(map, "messages.maxXZ", maxXZ);
         maxY = getOrDefault(map, "messages.maxY", maxY);
-        maxZ = getOrDefault(map, "messages.maxZ", maxZ);
         exclude = getOrDefault(map, "messages.exclude", exclude);
     }
 
@@ -94,26 +91,23 @@ public class Messages implements IConfig {
         setValue(map, "commands.reload.cmd", cReload);
         setValue(map, "commands.enable.cmd", cEnable);
         setValue(map, "commands.disable.cmd", cDisable);
-        setValue(map, "commands.maxx.cmd", cMaxX);
+        setValue(map, "commands.maxxz.cmd", cMaxXZ);
         setValue(map, "commands.maxy.cmd", cMaxY);
-        setValue(map, "commands.maxz.cmd", cMaxZ);
         setValue(map, "commands.exclude.cmd", cExclude);
 
         setValue(map, "success.reload", sReload);
 
         setValue(map, "errors.AccesDenied", AccesDenied);
         setValue(map, "errors.player", ePlayer);
-        setValue(map, "errors.maxX", eMaxX);
+        setValue(map, "errors.maxXZ", eMaxXZ);
         setValue(map, "errors.maxY", eMaxY);
-        setValue(map, "errors.maxZ", eMaxZ);
 
         setValue(map, "messages.enable", enable);
         setValue(map, "messages.disable", disable);
         setValue(map, "messages.reload_failed", eLoad);
         setValue(map, "messages.leftClick", leftClick);
-        setValue(map, "messages.maxX", maxX);
+        setValue(map, "messages.maxXZ", maxXZ);
         setValue(map, "messages.maxY", maxY);
-        setValue(map, "messages.maxZ", maxZ);
         setValue(map, "messages.exclude", exclude);
 
         return map;

@@ -18,42 +18,46 @@ package com.github.catericka.wsm.commands.subcommands;
 
 
 import com.github.catericka.wsm.configuration.Permissions;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.configManager;
 
-public class WsmCommandHelp extends Command
-{
-	public WsmCommandHelp()
-	{
-		super("help");
-		this.setDescription(StringUtils.join(configManager.messages.cHelp,"\n"));
-		this.setPermission(Permissions.ADMIN.toString());
-		this.setPermissionMessage(configManager.messages.AccesDenied);
-	}
+public class WsmCommandHelp extends Command {
+    public WsmCommandHelp() {
+        super("help");
+        this.setDescription(StringUtils.join(configManager.messages.cHelp, "\n"));
+        this.setPermission(Permissions.ADMIN.toString());
+        this.setPermissionMessage(configManager.messages.AccesDenied);
+    }
 
-	@Override
-	public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-		sender.sendMessage(ChatColor.YELLOW + "/wss help");
-		sender.sendMessage(ChatColor.WHITE + "    display help");
-		sender.sendMessage(ChatColor.YELLOW + "/wss disable");
-		sender.sendMessage(ChatColor.WHITE + "    disable auto select");
-		sender.sendMessage(ChatColor.YELLOW + "/wss enable");
-		sender.sendMessage(ChatColor.WHITE + "    enable auto select");
-		sender.sendMessage(ChatColor.YELLOW + "/wss exclude <Materials_Enum ...>");
-		sender.sendMessage(ChatColor.WHITE + "    exclude block when selecting");
-		sender.sendMessage(ChatColor.YELLOW + "/wss maxX|x <size>");
-		sender.sendMessage(ChatColor.WHITE + "    set max x-axial size");
-		sender.sendMessage(ChatColor.YELLOW + "/wss maxY|y <size>");
-		sender.sendMessage(ChatColor.WHITE + "    set max y-axial size");
-		sender.sendMessage(ChatColor.YELLOW + "/wss maxZ|z <size>");
-		sender.sendMessage(ChatColor.WHITE + "    set max z-axial size");
-		sender.sendMessage(ChatColor.YELLOW + "/wss reload");
-		sender.sendMessage(ChatColor.WHITE + "    reload configuration files");
-		return true;
-	}
+    @Override
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        String sb = configManager.messages.chatPrefix +
+				ChatColor.YELLOW + "/wss help" + '\n' +
+                ChatColor.WHITE + "    display help" + '\n' +
+				ChatColor.YELLOW + "/wss cancel" + '\n' +
+                ChatColor.WHITE + "    cancel select task" + '\n' +
+                ChatColor.YELLOW + "/wss disable" + '\n' +
+                ChatColor.WHITE + "    disable auto select" + '\n' +
+                ChatColor.YELLOW + "/wss enable" + '\n' +
+                ChatColor.WHITE + "    enable auto select" + '\n' +
+                ChatColor.YELLOW + "/wss exclude_add|add <Materials_Enum ...>" + '\n' +
+                ChatColor.WHITE + "    exclude blocks when selecting" + '\n' +
+                ChatColor.YELLOW + "/wss exclude_clear|clear <Materials_Enum ...>" + '\n' +
+                ChatColor.WHITE + "    clear exclude blocks list" + '\n' +
+                ChatColor.YELLOW + "/wss exclude_list|list <Materials_Enum ...>" + '\n' +
+                ChatColor.WHITE + "    list exclude blocks" + '\n' +
+                ChatColor.YELLOW + "/wss maxXZ|xz <size>" + '\n' +
+                ChatColor.WHITE + "    set max x-z axis size" + '\n' +
+                ChatColor.YELLOW + "/wss maxY|y <size>" + '\n' +
+                ChatColor.WHITE + "    set max y axis size" + '\n' +
+                ChatColor.YELLOW + "/wss reload" + '\n' +
+                ChatColor.WHITE + "    reload configuration files" + '\n';
+        sender.sendMessage(sb);
+        return true;
+    }
 }

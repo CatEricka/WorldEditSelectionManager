@@ -23,25 +23,22 @@ import java.util.Map;
 
 public class Config implements IConfig {
     /* ConnectedBlock */
-    public int maxX = 32;
+    public int maxXZ = 32;
     public int maxY = 32;
-    public int maxZ = 32;
 
     public Config() {
     }
 
     public Config(Map<String, Object> map) {
-        maxX = getOrDefault(map, "selection.maxX", maxX);
+        maxXZ = getOrDefault(map, "selection.maxXZ", maxXZ);
         maxY = getOrDefault(map, "selection.maxY", maxY);
-        maxZ = getOrDefault(map, "selection.maxZ", maxZ);
     }
 
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
-        setValue(map, "selection.maxX", maxX);
+        setValue(map, "selection.maxXZ", maxXZ);
         setValue(map, "selection.maxY", maxY);
-        setValue(map, "selection.maxZ", maxZ);
         return map;
     }
 
