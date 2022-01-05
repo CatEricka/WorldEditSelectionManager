@@ -59,7 +59,7 @@ WorldEdit Structure Selector: https://github.com/HexoCraft/WorldEditStructureSel
 bukkit 插件，启用后，使用木斧头点击方块，会沿方块相连开始递归搜索（最大递归深度为 maxXZ*2-1，最大垂直搜索范围为 maxY，见配置和命令），
 并自动根据相连区域大小创建 WorldEdit 选区。
 
-该插件为 WorldEdit Structure Selector（https://github.com/HexoCraft/WorldEditStructureSelector）的 fork。本着不要重复造轮子的思想，
+该插件为 WorldEdit Structure Selector（https://github.com/HexoCraft/WorldEditStructureSelector/）的 fork。本着不要重复造轮子的思想，
 复用了该插件的代码。但是该作者（HexoCraft）似乎从 2018年后半年再也没有任何活动，且原插件使用的 API 似乎无法在 1.16.5 工作，因此使用 FAWE API
 重写插件，去掉所有外部依赖（除 FAWE）。
 
