@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.*;
 
@@ -25,7 +24,7 @@ public class WsmApi {
         public int maxXZ;
         public int maxY;
         final private Set<BlockType> excludeBlocks = Collections.synchronizedSet(new HashSet<>());
-        private Future<Box> taskRunning;
+        private SearchTask searchTask;
 
         public WsmPlayer() {
             maxXZ = configManager.config.maxXZ;
@@ -51,26 +50,26 @@ public class WsmApi {
             excludeBlocks.add(BukkitAdapter.asBlockType(Material.AIR));
         }
 
-        protected void addTask(Future<Box> task) {
+        protected void addTask(SearchTask task) {
             if (!allTaskDone()) {
                 throw new IllegalArgumentException("Other task running");
             }
-            taskRunning = task;
+            searchTask = task;
         }
 
         protected void taskDone() {
-            taskRunning = null;
+            searchTask = null;
         }
 
         public boolean allTaskDone() {
-            return taskRunning == null;
+            return searchTask == null;
         }
 
-        public void cancelTask() {
-            if (taskRunning != null) {
-                taskRunning.cancel(true);
+        public void cancelTask(String reason) {
+            if (searchTask != null) {
+                searchTask.cancelSearchTask(reason);
             }
-            taskRunning = null;
+            searchTask = null;
         }
 
         public void addExcludeBlock(BlockType blockType) {
@@ -119,13 +118,13 @@ public class WsmApi {
 
     // Disable player from creating a chest preview
     public static void disable(Player player) {
-        getPlayer(player).cancelTask();
+        getPlayer(player).cancelTask("[WSM]: Auto select disabled");
         getPlayer(player).enable = false;
     }
 
     // Remove all players from the player list
     public static void remove(Player player) {
-        getPlayer(player).cancelTask();
+        getPlayer(player).cancelTask("[WSM]: Player quited");
         players.remove(player.getUniqueId());
     }
 
@@ -164,13 +163,12 @@ public class WsmApi {
 
         player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Selecting structure ...");
         SearchTask searchTask = new SearchTask(location, excluded, lengthXZ, lengthY);
-        Future<Box> future = searchTask.runSearchTaskAsync();
-
-        wsmPlayer.addTask(future);
+        wsmPlayer.addTask(searchTask);
         UUID playerUniqueId = player.getUniqueId();
+
         instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
             try {
-                Box box = future.get();
+                Box box = searchTask.getFuture().get();
 
                 // Create the WorldEdit selection sync
                 instance.getServer().getScheduler().runTask(instance, () -> {
@@ -192,9 +190,11 @@ public class WsmApi {
                 });
             }
         }, delay);
+
+        searchTask.runSearchTaskAsync();
     }
 
     public static void clearAllTaskQueue() {
-        players.forEach(((uuid, wsmPlayer) -> wsmPlayer.cancelTask()));
+        players.forEach(((uuid, wsmPlayer) -> wsmPlayer.cancelTask("[WSM]: clearAllTaskQueue")));
     }
 }

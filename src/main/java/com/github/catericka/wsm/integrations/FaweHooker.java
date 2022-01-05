@@ -17,14 +17,20 @@ package com.github.catericka.wsm.integrations;
  */
 
 import com.fastasyncworldedit.core.Fawe;
+import com.fastasyncworldedit.core.FaweAPI;
+import com.fastasyncworldedit.core.internal.exception.FaweException;
 import com.github.catericka.wsm.utils.Box;
+import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.extension.platform.permission.ActorSelectorLimits;
 import com.sk89q.worldedit.regions.selector.CuboidRegionSelector;
+import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import org.bukkit.entity.Player;
+
+import static com.github.catericka.wsm.WorldEditSelectionManager.instance;
 
 public class FaweHooker {
     public WorldEdit getWorldEditInstance() {
@@ -33,6 +39,14 @@ public class FaweHooker {
 
     public Fawe getFaweInstance() {
         return Fawe.get();
+    }
+    
+    public void cancelEditSession(EditSession editSession, String reason) {
+        try {
+            FaweAPI.cancelEdit(editSession, TextComponent.of(reason));
+        } catch (FaweException e) {
+            instance.getLogger().info("manually cancel EditSession task by FaweAPI::cancelEdit");
+        }
     }
 
     public String getWorldEditVersion() {

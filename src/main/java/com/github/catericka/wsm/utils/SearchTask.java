@@ -19,6 +19,7 @@ public class SearchTask {
     private EditSession editSession;
     private RecursiveVisitor visitor;
     private final Box box;
+    private Future<Box> future;
 
     private boolean called;
 
@@ -52,7 +53,7 @@ public class SearchTask {
         }
         called = true;
 
-        return faweHooker.getFaweInstance().getQueueHandler().async(() -> {
+        future = faweHooker.getFaweInstance().getQueueHandler().async(() -> {
             try {
                 Operations.complete(visitor);
             } finally {
@@ -60,5 +61,15 @@ public class SearchTask {
             }
             return box;
         });
+        return future;
+    }
+
+    public Future<Box> getFuture() {
+        return future;
+    }
+
+    public void cancelSearchTask(String reason) {
+        future.cancel(true);
+        faweHooker.cancelEditSession(editSession, reason);
     }
 }

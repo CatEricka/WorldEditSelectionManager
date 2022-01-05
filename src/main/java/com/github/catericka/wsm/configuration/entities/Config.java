@@ -25,6 +25,7 @@ public class Config implements IConfig {
     /* ConnectedBlock */
     public int maxXZ = 32;
     public int maxY = 32;
+    public boolean debug = false;
 
     public Config() {
     }
@@ -32,6 +33,7 @@ public class Config implements IConfig {
     public Config(Map<String, Object> map) {
         maxXZ = getOrDefault(map, "selection.maxXZ", maxXZ);
         maxY = getOrDefault(map, "selection.maxY", maxY);
+        debug = getOrDefault(map, "debug", debug);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class Config implements IConfig {
         Map<String, Object> map = new HashMap<>();
         setValue(map, "selection.maxXZ", maxXZ);
         setValue(map, "selection.maxY", maxY);
+        setValue(map, "debug", debug);
         return map;
     }
 
