@@ -166,6 +166,7 @@ public class WsmApi {
         wsmPlayer.addTask(searchTask);
         UUID playerUniqueId = player.getUniqueId();
 
+        searchTask.runSearchTaskAsync();
         instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
             try {
                 Box box = searchTask.getFuture().get();
@@ -191,7 +192,6 @@ public class WsmApi {
             }
         }, delay);
 
-        searchTask.runSearchTaskAsync();
     }
 
     public static void clearAllTaskQueue() {
