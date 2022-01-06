@@ -45,9 +45,9 @@ public class WsmCommandExcludeAdd extends Command {
             Material material = Material.getMaterial(s);
             if (material != null) {
                 wsmPlayer.addExcludeBlock(BukkitAdapter.asBlockType(material));
-                player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " " + s + " added to exclude.");
+                player.sendMessage(configManager.messages.chatPrefix + ChatColor.GREEN + " " + s + " added to exclude.");
             } else {
-                player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " " + s + " is not a material.");
+                player.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " " + s + " is not a material.");
             }
         }
 
