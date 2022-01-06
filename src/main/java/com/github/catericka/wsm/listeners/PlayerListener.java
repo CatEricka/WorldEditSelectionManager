@@ -48,8 +48,6 @@ public class PlayerListener implements Listener {
 
         if (!WsmApi.isEnable(player)) return;
 
-        WsmApi.WsmPlayer wsmPlayer = WsmApi.getPlayer(player);
-
         if ((event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && isWoodenAxe(player.getInventory().getItemInMainHand().getType())
                 && Permissions.has(player, Permissions.ADMIN)) {

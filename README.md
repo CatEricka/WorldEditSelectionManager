@@ -7,6 +7,10 @@ fork of WorldEdit Structure Selector, remove dependent libraries other than Worl
 
 WorldEdit Structure Selector: https://github.com/HexoCraft/WorldEditStructureSelector
 
+## Permissions
+
+wsm.admin: default op
+
 ## Command
 
 - /wsm help
@@ -63,6 +67,10 @@ bukkit 插件，启用后，使用木斧头点击方块，会沿方块相连开�
 该插件为 WorldEdit Structure Selector（ https://github.com/HexoCraft/WorldEditStructureSelector/ ）的 fork。
 本着不要重复造轮子的思想，复用了该插件的代码。由于原插件使用的 API 似乎无法在 1.16.5 工作，因此使用 FAWE API重写插件，
 去掉了所有外部依赖（除 FAWE）。使用 FAWE 加速后选区速度提高了一个数量级，常规大小的选区操作可以在一秒内结束。
+
+## Permissions
+
+wsm.admin: default op
 
 ## 命令
 

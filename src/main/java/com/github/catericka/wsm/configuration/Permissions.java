@@ -20,7 +20,7 @@ import org.bukkit.command.CommandSender;
 
 public enum Permissions
 {
-	ADMIN("wss.admin");
+	ADMIN("wsm.admin");
 
 	private final String permission;
 
