@@ -15,7 +15,7 @@
         Auto selects any structures as a WorldEdit cuboid selection, fork of WorldEdit Structure Selector.
     </description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>https://github.com/CatEricka/WorldEditSelectionManager</url>
