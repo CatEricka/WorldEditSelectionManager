@@ -35,7 +35,7 @@ public class WsmCommandEnable extends Command
 		setAliases(Lists.newArrayList("on", "1"));
 		setDescription(configManager.messages.cEnable);
 		setPermission(Permissions.ADMIN.toString());
-		setPermissionMessage(configManager.messages.AccesDenied);
+		setPermissionMessage(configManager.messages.AccessDenied);
 	}
 
 	@Override

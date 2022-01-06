@@ -15,7 +15,7 @@ public class WsmCommandMaxXZ extends Command {
         super("maxXZ");
         this.setAliases(Lists.newArrayList("xz"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

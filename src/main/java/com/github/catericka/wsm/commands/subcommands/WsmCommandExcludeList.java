@@ -18,7 +18,7 @@ public class WsmCommandExcludeList extends Command {
         super("exclude_list");
         this.setAliases(Lists.newArrayList("list"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

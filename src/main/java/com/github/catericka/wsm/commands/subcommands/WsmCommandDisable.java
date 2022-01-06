@@ -32,7 +32,7 @@ public class WsmCommandDisable extends Command {
         this.setAliases(Lists.newArrayList("off", "0"));
         this.setDescription(configManager.messages.cDisable);
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class WsmCommandExcludeAdd extends Command {
         super("exclude_add");
         this.setAliases(Lists.newArrayList("add"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class WsmCommandMaxY extends Command {
         super("maxY");
         this.setAliases(Lists.newArrayList("y"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

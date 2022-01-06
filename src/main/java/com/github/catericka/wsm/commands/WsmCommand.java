@@ -52,6 +52,11 @@ public class WsmCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        if (!testPermissionSilent(sender)) {
+            sender.sendMessage(configManager.messages.chatPrefix + " " + configManager.messages.AccessDenied);
+            return true;
+        }
+
         if (args.length == 0) {
             if (sender instanceof Player) {
                 return onPlayerExecute((Player) sender, commandLabel, args);
