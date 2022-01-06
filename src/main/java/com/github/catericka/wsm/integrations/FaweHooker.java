@@ -38,6 +38,7 @@ public class FaweHooker {
         return WorldEdit.getInstance();
     }
 
+    /** @noinspection removal*/
     public Fawe getFaweInstance() {
         return Fawe.get();
     }
