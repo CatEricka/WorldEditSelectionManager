@@ -5,7 +5,7 @@
 A bukkit plugin, auto selects any structures as a WorldEdit cuboid selection,
 fork of WorldEdit Structure Selector, remove dependent libraries other than WorldEdit.
 
-rewrite to use FAWE API.
+Rewrite to use FAWE API.
 
 WorldEdit Structure Selector: https://github.com/HexoCraft/WorldEditStructureSelector
 
