@@ -39,7 +39,7 @@ public class FaweHooker {
     }
 
     public Fawe getFaweInstance() {
-        return Fawe.get();
+        return Fawe.instance();
     }
 
     public void cancelEditSession(EditSession editSession, String reason) {
