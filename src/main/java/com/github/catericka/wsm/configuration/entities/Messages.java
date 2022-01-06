@@ -38,7 +38,7 @@ public class Messages implements IConfig {
 
     public String sReload = "Wsm has been reloaded";
 
-    public String AccesDenied = "You don't have permission to do that!";
+    public String AccessDenied = "You don't have permission to do that!";
     public String ePlayer = "This command can only be executed by a player";
     public String eMaxXZ = "X-Z length must be positive!";
     public String eMaxY = "Y length must be positive!";
@@ -67,7 +67,7 @@ public class Messages implements IConfig {
 
         sReload = getOrDefault(map, "success.reload", sReload);
 
-        AccesDenied = getOrDefault(map, "errors.AccesDenied", AccesDenied);
+        AccessDenied = getOrDefault(map, "errors.AccessDenied", AccessDenied);
         ePlayer = getOrDefault(map, "errors.player", ePlayer);
         eMaxXZ = getOrDefault(map, "errors.maxXZ", eMaxXZ);
         eMaxY = getOrDefault(map, "errors.maxY", eMaxY);
@@ -97,7 +97,7 @@ public class Messages implements IConfig {
 
         setValue(map, "success.reload", sReload);
 
-        setValue(map, "errors.AccesDenied", AccesDenied);
+        setValue(map, "errors.AccessDenied", AccessDenied);
         setValue(map, "errors.player", ePlayer);
         setValue(map, "errors.maxXZ", eMaxXZ);
         setValue(map, "errors.maxY", eMaxY);

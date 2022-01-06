@@ -31,7 +31,7 @@ public class WsmCommandHelp extends Command {
         super("help");
         this.setDescription(StringUtils.join(configManager.messages.cHelp, "\n"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

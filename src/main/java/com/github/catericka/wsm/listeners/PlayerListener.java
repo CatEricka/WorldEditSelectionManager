@@ -46,6 +46,11 @@ public class PlayerListener implements Listener {
 		// Get the player
         final Player player = event.getPlayer();
 
+        if (!Permissions.has(player, Permissions.ADMIN)) {
+            player.sendMessage(configManager.messages.chatPrefix + " " + configManager.messages.AccessDenied);
+            return;
+        }
+
         if (!WsmApi.isEnable(player)) return;
 
         if ((event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)

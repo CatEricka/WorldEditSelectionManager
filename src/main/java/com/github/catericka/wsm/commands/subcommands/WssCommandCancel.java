@@ -14,7 +14,7 @@ public class WssCommandCancel extends Command {
     public WssCommandCancel() {
         super("cancel");
         setPermission(Permissions.ADMIN.toString());
-        setPermissionMessage(configManager.messages.AccesDenied);
+        setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override

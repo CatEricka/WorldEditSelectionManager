@@ -16,7 +16,7 @@ public class WsmCommandExcludeClear extends Command {
         super("exclude_clear");
         this.setAliases(Lists.newArrayList("clear"));
         this.setPermission(Permissions.ADMIN.toString());
-        this.setPermissionMessage(configManager.messages.AccesDenied);
+        this.setPermissionMessage(configManager.messages.AccessDenied);
     }
 
     @Override
