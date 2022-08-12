@@ -37,13 +37,10 @@ wsm.admin: default op
 - /wsm cancel
   - cancel select task
 
-## master branch build dependencies
+## branches
 
-- Spigot/PaperSpigot 1.16.5 (tested)
-- FastAsyncWorldEdit 1.17.* or upper (tested with FastAsyncWorldEdit-Bukkit-1.17-419.jar)
-  - lower than FastAsyncWorldEdit-Bukkit-2.*.*-SNAPSHOT-50.jar, because its move to jdk17
-  - but PaperSpigot 1.16.5 only work with java16
-- jdk 16 (because FAWE 1.17.* use jdk 16)
+- master: Spigot/PaperSpigot 1.16.5 (tested)
+- paperspigot1.17.1_fawe2.0: Spigot/PaperSpigot 1.17+
 
 ## release version different
 
@@ -53,7 +50,7 @@ wsm.admin: default op
   - FAWE 1.17.*
     - file name like: FastAsyncWorldEdit-Bukkit-1.17-{build version}.jar
 - WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-*.jar
-  - PaperSpigot 1.17.1
+  - PaperSpigot 1.17.1+
   - java17
   - FAWE 2.*
 
@@ -100,13 +97,10 @@ wsm.admin: default op
 - /wsm cancel
   - 取消搜索任务（在搜索跑飞的情况下使用，比如你点了地板……）
 
-## master 分支构建依赖
+## 分支
 
-- Spigot/PaperSpigot 1.16.5 (更高版本未测试)
-- FastAsyncWorldEdit 1.17.* (测试版本：FastAsyncWorldEdit-Bukkit-1.17-419.jar)
-  - 注意，最新的 FastAsyncWorldEdit-Bukkit-2.*.*-SNAPSHOT-*.jar 可能无法兼容该插件
-  - 因为 FAWE2.0 切换到了 jdk17，PaperSpigot 1.16.5 不支持 java16。
-- jdk 16 (因为 FAWE 1.17.* 用了 jdk16)
+- master: Spigot/PaperSpigot 1.16.5 (更高版本未测试)
+- paperspigot1.17.1_fawe2.0: Spigot/PaperSpigot 1.17.1+
 
 ## Release 版本区别
 
@@ -117,7 +111,7 @@ wsm.admin: default op
     - 其典型文件名为 FastAsyncWorldEdit-Bukkit-1.17-{构建版本号}.jar
     - 不兼容 FAWE 2.*
 - WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-*.jar
-  - minecraft 版本为 PaperSpigot 1.17.1
+  - minecraft 版本为 PaperSpigot 1.17.1+
   - 使用 jdk17 构建
   - 兼容 FAWE 2.*
 

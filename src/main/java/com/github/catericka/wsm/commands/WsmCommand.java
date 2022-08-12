@@ -19,7 +19,8 @@ public class WsmCommand extends Command {
 
     public WsmCommand(String name) {
         super(name);
-        setUsage("/wss disable|enable|exclude|help|maxXZ|maxY|reload");
+        setUsage("/wsm|wss disable|enable|exclude|help|maxXZ|maxY|reload");
+        setAliases(List.of("wss"));
         setDescription("auto select WorldEdit cube selection");
         setPermission(Permissions.ADMIN.toString());
 
@@ -94,9 +95,14 @@ public class WsmCommand extends Command {
 	public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
 		if (args.length == 1) {
 			return subCommandsList;
-		} else {
-			return super.tabComplete(sender, alias, args);
-		}
+		} else if (args.length == 2) {
+            String subCommandName = args[1];
+            if (subCommandsList.contains(subCommandName)) {
+                return getSubCommand(subCommandName)
+                        .tabComplete(sender, alias, args);
+            }
+        }
+        return super.tabComplete(sender, alias, args);
 	}
 
 	public boolean onPlayerExecute(@NotNull Player player, @NotNull String commandLabel, @NotNull String[] args) {

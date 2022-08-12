@@ -26,7 +26,7 @@ public class WssCommandCancel extends Command {
         // Get the player
         final Player player = (Player) sender;
         final WsmApi.WsmPlayer wsmPlayer = WsmApi.getPlayer(player);
-        if (wsmPlayer.allTaskDone()) {
+        if (wsmPlayer.testTaskDone()) {
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.YELLOW + " All task finished.");
         } else {
             WsmApi.getPlayer(player).cancelTask("[WSM]: Player canceled.");

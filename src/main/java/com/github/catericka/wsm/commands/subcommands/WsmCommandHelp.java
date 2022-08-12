@@ -37,25 +37,25 @@ public class WsmCommandHelp extends Command {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         String sb = configManager.messages.chatPrefix +
-				ChatColor.YELLOW + "/wss help" + '\n' +
+				ChatColor.YELLOW + "/wsm|wss help" + '\n' +
                 ChatColor.WHITE + "    display help" + '\n' +
-				ChatColor.YELLOW + "/wss cancel" + '\n' +
+				ChatColor.YELLOW + "/wsm|wss cancel" + '\n' +
                 ChatColor.WHITE + "    cancel select task" + '\n' +
-                ChatColor.YELLOW + "/wss disable" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss disable" + '\n' +
                 ChatColor.WHITE + "    disable auto select" + '\n' +
-                ChatColor.YELLOW + "/wss enable" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss enable" + '\n' +
                 ChatColor.WHITE + "    enable auto select" + '\n' +
-                ChatColor.YELLOW + "/wss exclude_add|add <Materials_Enum ...>" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss exclude_add|add <Materials_Enum ...>" + '\n' +
                 ChatColor.WHITE + "    exclude blocks when selecting" + '\n' +
-                ChatColor.YELLOW + "/wss exclude_clear|clear <Materials_Enum ...>" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss exclude_clear|clear <Materials_Enum ...>" + '\n' +
                 ChatColor.WHITE + "    clear exclude blocks list" + '\n' +
-                ChatColor.YELLOW + "/wss exclude_list|list <Materials_Enum ...>" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss exclude_list|list <Materials_Enum ...>" + '\n' +
                 ChatColor.WHITE + "    list exclude blocks" + '\n' +
-                ChatColor.YELLOW + "/wss maxXZ|xz <size>" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss maxXZ|xz <size>" + '\n' +
                 ChatColor.WHITE + "    set max x-z axis size" + '\n' +
-                ChatColor.YELLOW + "/wss maxY|y <size>" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss maxY|y <size>" + '\n' +
                 ChatColor.WHITE + "    set max y axis size" + '\n' +
-                ChatColor.YELLOW + "/wss reload" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss reload" + '\n' +
                 ChatColor.WHITE + "    reload configuration files" + '\n';
         sender.sendMessage(sb);
         return true;
