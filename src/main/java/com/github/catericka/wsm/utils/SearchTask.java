@@ -1,5 +1,6 @@
 package com.github.catericka.wsm.utils;
 
+import com.fastasyncworldedit.core.internal.exception.FaweException;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.function.RegionFunction;
@@ -11,7 +12,7 @@ import com.sk89q.worldedit.world.block.BlockType;
 import org.bukkit.Location;
 
 import java.util.Set;
-import java.util.concurrent.Future;
+import java.util.function.Consumer;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.faweHooker;
 
@@ -19,9 +20,8 @@ public class SearchTask {
     private EditSession editSession;
     private RecursiveVisitor visitor;
     private final Box box;
-    private Future<Box> future;
-
-    private boolean called;
+    private Consumer<Box> consumerIfSuccess;
+    private Consumer<String> consumerIfFailure;
 
     public SearchTask(Location location, Set<BlockType> excluded, int maxXZ, int maxY) {
         box = new Box(location);
@@ -47,29 +47,29 @@ public class SearchTask {
         visitor.visit(BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
     }
 
-    public Future<Box> runSearchTaskAsync() {
-        if (called) {
-            throw new IllegalStateException("Cannot call SearchTask::runSearchTaskAsync twice");
-        }
-        called = true;
+    public void SetAsyncCallbackIfSuccess(Consumer<Box> consumer) {
+        consumerIfSuccess = consumer;
+    }
 
-        future = faweHooker.getFaweInstance().getQueueHandler().async(() -> {
+    public void SetAsyncCallbackIfFailure(Consumer<String> consumer) {
+        consumerIfFailure = consumer;
+    }
+
+    public void runSearchTaskAsyncWithCallback() {
+        faweHooker.getFaweInstance().getQueueHandler().async(() -> {
             try {
                 Operations.complete(visitor);
+            } catch (FaweException e) {
+                consumerIfFailure.accept(e.getMessage());
+                return;
             } finally {
                 editSession.close();
             }
-            return box;
+            consumerIfSuccess.accept(box);
         });
-        return future;
-    }
-
-    public Future<Box> getFuture() {
-        return future;
     }
 
     public void cancelSearchTask(String reason) {
-        future.cancel(true);
         faweHooker.cancelEditSession(editSession, reason);
     }
 }

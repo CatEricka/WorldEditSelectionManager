@@ -1,6 +1,5 @@
 package com.github.catericka.wsm;
 
-import com.github.catericka.wsm.utils.Box;
 import com.github.catericka.wsm.utils.SearchTask;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.world.block.BlockType;
@@ -10,8 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 
 import static com.github.catericka.wsm.WorldEditSelectionManager.*;
 
@@ -50,22 +47,22 @@ public class WsmApi {
             excludeBlocks.add(BukkitAdapter.asBlockType(Material.AIR));
         }
 
-        protected void addTask(SearchTask task) {
-            if (!allTaskDone()) {
+        synchronized protected void addTask(SearchTask task) {
+            if (!testTaskDone()) {
                 throw new IllegalArgumentException("Other task running");
             }
             searchTask = task;
         }
 
-        protected void taskDone() {
+        synchronized protected void setTaskDone() {
             searchTask = null;
         }
 
-        public boolean allTaskDone() {
+        synchronized public boolean testTaskDone() {
             return searchTask == null;
         }
 
-        public void cancelTask(String reason) {
+        synchronized public void cancelTask(String reason) {
             if (searchTask != null) {
                 searchTask.cancelSearchTask(reason);
             }
@@ -156,7 +153,7 @@ public class WsmApi {
 
     public static void select(final Player player, final Location location, final Set<BlockType> excluded, final int lengthXZ, final int lengthY) {
         WsmPlayer wsmPlayer = getPlayer(player);
-        if (!wsmPlayer.allTaskDone()) {
+        if (!wsmPlayer.testTaskDone()) {
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Task Running...");
             return;
         }
@@ -166,32 +163,30 @@ public class WsmApi {
         wsmPlayer.addTask(searchTask);
         UUID playerUniqueId = player.getUniqueId();
 
-        searchTask.runSearchTaskAsync();
-        instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, () -> {
-            try {
-                Box box = searchTask.getFuture().get();
+        searchTask.SetAsyncCallbackIfSuccess((box) -> {
+            // Create the WorldEdit selection sync
+            instance.getServer().getScheduler().runTask(instance, () -> {
+                Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
+                // If player offline
+                if (maybePlayer == null || !maybePlayer.isOnline()) return;
 
-                // Create the WorldEdit selection sync
-                instance.getServer().getScheduler().runTask(instance, () -> {
-                    Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
-                    // If player offline
-                    if (maybePlayer == null || !maybePlayer.isOnline()) return;
+                maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
+                faweHooker.select(maybePlayer, box);
+                getPlayer(maybePlayer).setTaskDone();
+            });
+        });
 
-                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " Structure selection done.");
-                    faweHooker.select(maybePlayer, box);
-                    getPlayer(maybePlayer).taskDone();
-                });
-            } catch (InterruptedException | ExecutionException | CancellationException e) {
-                // task cancel
-                instance.getServer().getScheduler().runTask(instance, () -> {
-                    Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
-                    // If player offline
-                    if (maybePlayer == null || !maybePlayer.isOnline()) return;
-                    maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Search task canceled.");
-                });
-            }
-        }, delay);
+        searchTask.SetAsyncCallbackIfFailure((message) -> {
+            // task canceled
+            instance.getServer().getScheduler().runTask(instance, () -> {
+                Player maybePlayer = instance.getServer().getPlayer(playerUniqueId);
+                // If player offline
+                if (maybePlayer == null || !maybePlayer.isOnline()) return;
+                maybePlayer.sendMessage(configManager.messages.chatPrefix + ChatColor.RED + " Search task canceled.");
+            });
+        });
 
+        searchTask.runSearchTaskAsyncWithCallback();
     }
 
     public static void clearAllTaskQueue() {
