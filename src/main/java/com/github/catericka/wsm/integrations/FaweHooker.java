@@ -39,6 +39,7 @@ public class FaweHooker {
     }
 
     public Fawe getFaweInstance() {
+        // fawe 2.0+
         return Fawe.instance();
     }
 
