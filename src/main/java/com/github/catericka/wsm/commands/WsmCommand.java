@@ -30,6 +30,7 @@ public class WsmCommand extends Command {
             addSubCommand(new WsmCommandEnable());
             addSubCommand(new WssCommandCancel());
             addSubCommand(new WsmCommandExcludeAdd());
+            addSubCommand(new WsmCommandExcludeAddHand());
             addSubCommand(new WsmCommandExcludeClear());
             addSubCommand(new WsmCommandExcludeList());
             addSubCommand(new WsmCommandHelp());
@@ -113,6 +114,7 @@ public class WsmCommand extends Command {
     }
 
     public boolean onConsoleExecute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        sender.sendMessage(ChatColor.RED + "WorldEdit Structure Manager: Please execute this command as a Player.");
         return false;
     }
 }

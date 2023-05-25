@@ -47,6 +47,8 @@ public class WsmCommandHelp extends Command {
                 ChatColor.WHITE + "    enable auto select" + '\n' +
                 ChatColor.YELLOW + "/wsm|wss exclude_add|add <Materials_Enum ...>" + '\n' +
                 ChatColor.WHITE + "    exclude blocks when selecting" + '\n' +
+                ChatColor.YELLOW + "/wsm|wss exclude_add_hand|addhand" + '\n' +
+                ChatColor.WHITE + "    exclude block in main hand when selecting" + '\n' +
                 ChatColor.YELLOW + "/wsm|wss exclude_clear|clear <Materials_Enum ...>" + '\n' +
                 ChatColor.WHITE + "    clear exclude blocks list" + '\n' +
                 ChatColor.YELLOW + "/wsm|wss exclude_list|list <Materials_Enum ...>" + '\n' +

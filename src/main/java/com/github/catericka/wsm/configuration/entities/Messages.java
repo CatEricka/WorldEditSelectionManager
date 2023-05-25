@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class Messages implements IConfig {
 
-    public String chatPrefix = "&3[&bWsm&3]&r";
+    public String chatPrefix = "§3[§bWsm§3]§r";
 
     public List<String> cHelp = Collections.singletonList("Display Wsm help");
     public List<String> cReload = Collections.singletonList("Reload Wsm");
@@ -36,7 +36,7 @@ public class Messages implements IConfig {
     public String cMaxY = "Define maximum maxY selection";
     public String cExclude = "List of material to exclude";
 
-    public String sReload = "Wsm has been reloaded";
+    public String sReload = "WorldEdit Structure Manager has been reloaded";
 
     public String AccessDenied = "You don't have permission to do that!";
     public String ePlayer = "This command can only be executed by a player";
@@ -55,7 +55,7 @@ public class Messages implements IConfig {
     }
 
     public Messages(Map<String, Object> map) {
-        chatPrefix = transColorCode(getOrDefault(map, "chat.prefix", chatPrefix));
+        chatPrefix = getOrDefault(map, "chat.prefix", chatPrefix);
 
         cHelp = getOrDefault(map, "commands.help.cmd", cHelp);
         cReload = getOrDefault(map, "commands.reload.cmd", cReload);
@@ -111,10 +111,6 @@ public class Messages implements IConfig {
         setValue(map, "messages.exclude", exclude);
 
         return map;
-    }
-
-    private String transColorCode(String str) {
-        return ChatColor.translateAlternateColorCodes('&', str);
     }
 
     public String getConfigFileName() {

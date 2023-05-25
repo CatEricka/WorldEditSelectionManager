@@ -36,7 +36,7 @@ public class WsmCommandReload extends Command {
 		if (configManager.isLoadSuccess()) {
 			sender.sendMessage(ChatColor.YELLOW + configManager.messages.sReload);
 		} else {
-			sender.sendMessage(ChatColor.RED + "Wsm reloaded FAILED!");
+			sender.sendMessage(ChatColor.RED + configManager.messages.eLoad);
 		}
 		return true;
 	}
