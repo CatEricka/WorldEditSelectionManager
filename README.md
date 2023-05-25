@@ -23,6 +23,8 @@ wsm.admin: default op
   - disable auto select
 - /wsm exclude_add|add
   - add Material name to exclude block list, witch while skip when searching
+- /wsm|wss exclude_add_hand|addhand
+  - exclude block in main hand when selecting
 - /wsm exclude_clear|clear
   - reset exclude block list
 - /wsm exclude_list|list
@@ -37,26 +39,45 @@ wsm.admin: default op
 - /wsm cancel
   - cancel select task
 
-## branches
+## Branche
 
-- master: Spigot/PaperSpigot 1.16.5 (tested)
-- paperspigot1.17.1_fawe2.0: Spigot/PaperSpigot 1.17+
+- master: Spigot/PaperSpigot 1.16.5+, need JDK 17
+  - tested on: 1.16.5, 1.17.1, 1.18.2, 1.19.4 with `FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar`
 
-## release version different
+Note that the latest version of FAWE (`FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar`) needs JDK 17+.
 
-- WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-*.jar
-  - PaperSpigot 1.16.5
-  - java16
-  - FAWE 1.17.*
-    - file name like: FastAsyncWorldEdit-Bukkit-1.17-{build version}.jar
-- WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-*.jar
-  - PaperSpigot 1.17.1+
-  - java17
-  - FAWE 2.*
+## Changelogs
+
+[Download](https://github.com/CatEricka/WorldEditSelectionManager/releases)
+
+### Version 2.0.0:
+
+- File name: `WorldEditSelectionManager-spigot1.16.5-jdk17-2.0.0.jar`
+- Support PaperSpigot 1.16.5+
+- Compatible with FAWE 2.* and Java 17+
+
+Added a new command `/wsm|wss exclude_add_hand|addhand`,
+which can add the block on the main hand to the exclude_list.
+
+Note: PaperSpigot 1.16.5 needs to turn off the java version check to start with Java 17.
+For example: `java -DPaper.IgnoreJavaVersion=true -jar $PAPER_JAR -nogui`
+
+### Version 1.2.0
+
+This version are not recommended.
+
+If you are using Java 16 or lower with PaperSpigot 1.16.5, specific versions of FAWE (FAWE 1.17.*) can be used with
+`WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-1.2.0.jar`.
+
+- File name:
+  - `WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-1.2.0.jar`
+  - `WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-1.2.0.jar`
 
 ## TODO
   - i18n
   - add selection clipboard
+
+------
 
 ## 介绍
 
@@ -83,6 +104,8 @@ wsm.admin: default op
   - 关闭自动选区
 - /wsm exclude_add|add <Material ...>
   - 添加排除列表，列表中的方块会被递归搜索跳过，参数名必须为 Material 枚举名。（因为我很懒。）
+- /wsm|wss exclude_add_hand|addhand
+  - 把主手上的方块加入到排除列表。很实用的命令。
 - /wsm exclude_clear|clear
   - 将排除列表设为默认
 - /wsm exclude_list|list
@@ -99,23 +122,39 @@ wsm.admin: default op
 
 ## 分支
 
-- master: Spigot/PaperSpigot 1.16.5 (更高版本未测试)
-- paperspigot1.17.1_fawe2.0: Spigot/PaperSpigot 1.17.1+
+- master: Spigot/PaperSpigot 1.16.5+, 要求 JDK 17
+  - 在这些版本的 PaperSpigot 上测试过: 1.16.5, 1.17.1, 1.18.2, 1.19.4
+  - 测试使用的 FAWE 版本为 `FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar`
 
-## Release 版本区别
+需要注意的是最新版本的 FAWE (`FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar`) 需要 JDK 17+，
 
-- WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-*.jar
-  - minecraft 测试版本为 PaperSpigot 1.16.5
-  - 使用 jdk16 构建，大概意味着需要使用 java16 才能运行
-  - 兼容 FAWE 1.17.*
-    - 其典型文件名为 FastAsyncWorldEdit-Bukkit-1.17-{构建版本号}.jar
-    - 不兼容 FAWE 2.*
-- WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-*.jar
-  - minecraft 版本为 PaperSpigot 1.17.1+
-  - 使用 jdk17 构建
-  - 兼容 FAWE 2.*
+## 更新记录
 
-除 PaperSpigot 1.16.5, jdk16, FAWE 1.17.* 以外所有版本都未经测试。
+[下载](https://github.com/CatEricka/WorldEditSelectionManager/releases)
+
+### 版本 2.0.0:
+
+推荐使用这个版本。
+
+- 文件名: `WorldEditSelectionManager-spigot1.16.5-jdk17-2.0.0.jar`
+- 支持 PaperSpigot 1.16.5+
+- 和 FAWE 2.* 以及 Java 17+ 兼容。
+
+添加了新命令 `/wsm|wss exclude_add_hand|addhand`, 可以将手上的方块添加到排除列表。
+
+注意：PaperSpigot 1.16.5 需要关闭 Java 版本检查才能使用 Java 17。
+参数示例：`java -DPaper.IgnoreJavaVersion=true -jar $PAPER_JAR -nogui`
+
+### 版本 1.2.0
+
+不推荐使用这个版本。
+
+如果你正在使用 Java 16 或更低版本，`WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-1.2.0.jar`
+可以和特定版本的 FAWE (FAWE 1.17.*) 一起工作。
+
+- 文件名:
+  - `WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17-1.2.0.jar`
+  - `WorldEditSelectionManager-spigot1.17.1-jdk17-fawe2.0-1.2.0.jar`
   
 ## 开发计划
 
