@@ -38,9 +38,8 @@ public class FaweHooker {
         return WorldEdit.getInstance();
     }
 
-    /** @noinspection removal*/
     public Fawe getFaweInstance() {
-        return Fawe.get();
+        return Fawe.instance();
     }
 
     public void cancelEditSession(EditSession editSession, String reason) {

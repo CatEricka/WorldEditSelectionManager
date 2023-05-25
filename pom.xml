@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.catericka</groupId>
-    <artifactId>WorldEditSelectionManager-spigot1.16.5-jdk16-fawe1.17</artifactId>
-    <version>1.2.0</version>
+    <artifactId>WorldEditSelectionManager-spigot1.16.5-jdk17</artifactId>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>WorldEditSelectionManager</name>
@@ -15,7 +15,7 @@
         Auto selects any structures as a WorldEdit cuboid selection, fork of WorldEdit Structure Selector.
     </description>
     <properties>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>https://github.com/CatEricka/WorldEditSelectionManager</url>
@@ -61,15 +61,19 @@
             <id>papermc-repo</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>S01 Sonatype Snapshots</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.intellectualsites.bom</groupId>
+                <artifactId>bom-1.18.x</artifactId>
+                <version>1.27</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -81,7 +85,6 @@
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
