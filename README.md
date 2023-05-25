@@ -59,6 +59,8 @@ Note that the latest version of FAWE (`FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-
 Added a new command `/wsm|wss exclude_add_hand|addhand`,
 which can add the block on the main hand to the exclude_list.
 
+Tested on PaperSpigot 1.16.5, 1.17.1, 1.18.2, 1.19.4 with `FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar` .
+
 Note: PaperSpigot 1.16.5 needs to turn off the java version check to start with Java 17.
 For example: `java -DPaper.IgnoreJavaVersion=true -jar $PAPER_JAR -nogui`
 
@@ -141,6 +143,8 @@ wsm.admin: default op
 - 和 FAWE 2.* 以及 Java 17+ 兼容。
 
 添加了新命令 `/wsm|wss exclude_add_hand|addhand`, 可以将手上的方块添加到排除列表。
+
+在 PaperSpigot 1.16.5, 1.17.1, 1.18.2, 1.19.4 上与  `FastAsyncWorldEdit-Bukkit-2.6.2-SNAPSHOT-437.jar` 测试，工作正常。
 
 注意：PaperSpigot 1.16.5 需要关闭 Java 版本检查才能使用 Java 17。
 参数示例：`java -DPaper.IgnoreJavaVersion=true -jar $PAPER_JAR -nogui`
