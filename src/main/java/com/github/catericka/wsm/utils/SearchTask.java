@@ -17,8 +17,8 @@ import java.util.function.Consumer;
 import static com.github.catericka.wsm.WorldEditSelectionManager.faweHooker;
 
 public class SearchTask {
-    private EditSession editSession;
-    private RecursiveVisitor visitor;
+    final private EditSession editSession;
+    final private RecursiveVisitor visitor;
     private final Box box;
     private Consumer<Box> consumerIfSuccess;
     private Consumer<String> consumerIfFailure;
@@ -40,8 +40,10 @@ public class SearchTask {
                 mask.inverse(),
                 regionFunction,
                 maxXZ * 2 + 1,
-                Math.max(location.getBlockY() - maxY, 0),
-                Math.min(location.getBlockY() + maxY, 255),
+                // minY
+                Math.max(location.getBlockY() - maxY, location.getWorld().getMinHeight()),
+                // maxY
+                Math.min(location.getBlockY() + maxY, location.getWorld().getMaxHeight()),
                 editSession);
 
         visitor.visit(BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ()));

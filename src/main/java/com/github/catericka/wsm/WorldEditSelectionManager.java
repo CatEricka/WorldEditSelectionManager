@@ -51,8 +51,15 @@ public final class WorldEditSelectionManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UpdaterListener(), this);
 
         /* Enable message */
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "WorldEdit Structure Manager 1.0.3 is enabled.");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "WorldEdit Structure Manager 2.0.0 is enabled.");
         getServer().getConsoleSender().sendMessage("WorldEdit version: " + ChatColor.YELLOW + faweHooker.getWorldEditVersion());
+
+        if (configManager.config.debug) {
+            getServer().getWorlds().forEach(world -> {
+                getServer().getConsoleSender().sendMessage("World" + world.getName() + " MaxY: " + world.getMaxHeight());
+                getServer().getConsoleSender().sendMessage("World" + world.getName() + " MinY: " + world.getMinHeight());
+            });
+        }
     }
 
     /**
