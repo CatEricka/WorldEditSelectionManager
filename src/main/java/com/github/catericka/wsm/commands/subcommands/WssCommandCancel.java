@@ -19,12 +19,11 @@ public class WssCommandCancel extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof final Player player)) {
             sender.sendMessage(configManager.messages.ePlayer);
             return true;
         }
-        // Get the player
-        final Player player = (Player) sender;
+
         final WsmApi.WsmPlayer wsmPlayer = WsmApi.getPlayer(player);
         if (wsmPlayer.testTaskDone()) {
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.YELLOW + " All task finished.");

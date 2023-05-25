@@ -21,12 +21,11 @@ public class WsmCommandExcludeClear extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof final Player player)) {
             sender.sendMessage(configManager.messages.ePlayer);
             return true;
         }
-        // Get the player
-        final Player player = (Player) sender;
+
         WsmApi.getPlayer(player).clearExcludeBlocks();
         player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " exclude list set to default.");
         return true;

@@ -23,13 +23,11 @@ public class WsmCommandExcludeList extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof final Player player)) {
             sender.sendMessage(configManager.messages.ePlayer);
             return true;
         }
 
-        // Get the player
-        final Player player = (Player) sender;
         StringBuilder text = new StringBuilder(configManager.messages.chatPrefix).append(ChatColor.GRAY).append(" Exclude list: \n  ");
         WsmApi.getPlayer(player).getExcludeBlockSet().forEach(blockType -> text.append(BukkitAdapter.adapt(blockType).toString()).append(", "));
 

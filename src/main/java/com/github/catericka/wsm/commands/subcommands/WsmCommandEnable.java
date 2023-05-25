@@ -40,12 +40,11 @@ public class WsmCommandEnable extends Command
 
 	@Override
 	public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof final Player player)) {
 			sender.sendMessage(configManager.messages.ePlayer);
 			return true;
 		}
 
-		final Player player = (Player) sender;
 		// Enable Wss for the player
 		WsmApi.enable(player);
 

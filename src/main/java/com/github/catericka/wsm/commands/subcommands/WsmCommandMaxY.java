@@ -20,12 +20,10 @@ public class WsmCommandMaxY extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof final Player player)) {
             sender.sendMessage(configManager.messages.ePlayer);
             return true;
         }
-        // Get the player
-        final Player player = (Player) sender;
 
         // Get maxY from command line
         if (args.length == 0) {

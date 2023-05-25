@@ -27,12 +27,10 @@ public class WsmCommandExcludeAdd extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof final Player player)) {
             sender.sendMessage(configManager.messages.ePlayer);
             return true;
         }
-        // Get the player
-        final Player player = (Player) sender;
 
         if (args.length == 0) {
             player.sendMessage(configManager.messages.chatPrefix + ChatColor.GRAY + " nothing changed.");

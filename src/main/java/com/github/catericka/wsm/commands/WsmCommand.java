@@ -114,7 +114,7 @@ public class WsmCommand extends Command {
     }
 
     public boolean onConsoleExecute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        sender.sendMessage(ChatColor.RED + "WorldEdit Structure Manager: Please execute this command as a Player.");
+        sender.sendMessage(ChatColor.RED + configManager.messages.ePlayer);
         return false;
     }
 }
